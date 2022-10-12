@@ -18,7 +18,7 @@ const App: React.FC<{apiEndpoint: string}> = ({apiEndpoint}) => {
   const [staff, setStaff] = useState<Staff[]|null>(null);
 
   const fetchStatusAndStaff = () => {
-    const status = fetch(`${apiEndpoint}/api/health/status`)
+    fetch(`${apiEndpoint}/api/health/status`)
         .then(res => res.json())
         .then(output => {
             setStatus(output?.status === 'UP' ? 'up' : 'down');
@@ -26,7 +26,7 @@ const App: React.FC<{apiEndpoint: string}> = ({apiEndpoint}) => {
             setStatus('down');
         })
 
-    const staff = fetch(`${apiEndpoint}/api/data/staff`)
+    fetch(`${apiEndpoint}/api/data/staff`)
         .then(res => res.json())
         .then(output => {
             setStaff(output);
@@ -46,7 +46,7 @@ const App: React.FC<{apiEndpoint: string}> = ({apiEndpoint}) => {
   return (
     <Container>
         <h1>C7t-K8s-Pres</h1>
-        <Status status={status} />
+        <Status status={status} apiEndpoint={apiEndpoint} />
         <p>
             <a href="#" onClick={() => onRefresh()}>Refresh</a>
         </p>
@@ -59,9 +59,14 @@ const App: React.FC<{apiEndpoint: string}> = ({apiEndpoint}) => {
   );
 }
 
-const Status: React.FC<{status: APIStatus}> = ({status}) => {
+const Status: React.FC<{status: APIStatus, apiEndpoint: string}> = ({apiEndpoint, status}) => {
     const message = status === 'loading' ? 'Checking API status' : (status === 'up' ? 'API is up and running' : 'API is down')
-    return <p>{message}</p>
+    return <>
+        <p>
+            {message}:{' '}
+            <a href={apiEndpoint}>{apiEndpoint}</a>
+        </p>
+    </>
 }
 
 const StaffList: React.FC<{staff: Staff[]}> = ({staff}) => {

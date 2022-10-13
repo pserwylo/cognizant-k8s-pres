@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+data:
+  #
+  # We will ask kubernetes to create a volume based on the contents of this config map, which we can then mount
+  # into our containers. Each entry in this "data:" block will be written to a file in this virtual volume.
+  #
+  config.json: |
+    {
+      "apiEndpoint": "http://backend-peter-serwylo-dev.apps.sandbox.x8i5.p1.openshiftapps.com"
+    }

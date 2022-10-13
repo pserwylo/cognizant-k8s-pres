@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+
+  #
+  # Whenever k8s decides to create one or more pod for this deployment, it will use the YAML here to form
+  # the contents of the pods resource definition YAML.
+  #
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: pserwylo/cognizant-k8s-pres-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+              protocol: TCP

@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+
+  #
+  # Whenever k8s decides to create one or more pod for this deployment, it will use the YAML here to form
+  # the contents of the pods resource definition YAML.
+  #
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      #
+      # Create a "volume" that can be used by the container when being created.
+      # Will allow Kubernetes resources such as ConfigMaps and Secrets which contain files to be made
+      # available as files on disk in the container. This is important because it is impracticle and insecure
+      # to hardcode config values into your docker image at build time.
+      #
+      volumes:
+        - name: config-volume
+          configMap:
+            name: frontend
+
+      containers:
+        - name: frontend
+          image: pserwylo/cognizant-k8s-pres-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+
+          #
+          # Use the volume created above, which contains a "config.json" file from within the "frontend-config-json"
+          # ConfigMap, and make the "config.json" file available in the webroot (overwriting the example one in
+          # the docker container).
+          #
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/config.json
+              name: config-volume
+              subPath: config.json

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-import {Card, CardBody, CardText, CardTitle, Container} from "reactstrap";
+import {Alert, Card, CardBody, CardGroup, CardText, CardTitle, Col, Container, Row} from "reactstrap";
 
 type APIStatus = 'loading' | 'up' | 'down';
 interface Staff {
@@ -44,45 +44,51 @@ const App: React.FC<{apiEndpoint: string}> = ({apiEndpoint}) => {
   }, []);
 
   return (
-    <Container>
-        <h1>C7t-K8s-Pres</h1>
-        <Status status={status} apiEndpoint={apiEndpoint} />
-        <p>
-            <a href="#" onClick={() => onRefresh()}>Refresh</a>
-        </p>
+    <Container style={{padding: '2rem'}}>
+        <h1>c7t k8s presentation</h1>
+
+        {status !== 'down' &&
+            <p>
+                <a href="#" onClick={() => onRefresh()}>Refresh</a>
+            </p>}
+
         {status !== 'down' && (
             staff === null
-                ? <p>Loading staff...</p>
+                ? <Alert color="light">Loading staff...</Alert>
                 : <StaffList staff={staff} />
         )}
+
+        <Status status={status} apiEndpoint={apiEndpoint} />
+
     </Container>
   );
 }
 
 const Status: React.FC<{status: APIStatus, apiEndpoint: string}> = ({apiEndpoint, status}) => {
     const message = status === 'loading' ? 'Checking API status' : (status === 'up' ? 'API is up and running' : 'API is down')
+    const colour = status === 'down' ? 'danger' : 'light'
     return <>
-        <p>
+        <Alert color={colour}>
             {message}:{' '}
             <a href={apiEndpoint}>{apiEndpoint}</a>
-        </p>
+        </Alert>
     </>
 }
 
 const StaffList: React.FC<{staff: Staff[]}> = ({staff}) => {
-    return <div style={{display: "flex", flexWrap: 'wrap'}}>
+    return <Row>
         {staff.map(s => <StaffCard key={s.name} staffMember={s} />)}
-    </div>
+    </Row>
 }
 
 const StaffCard: React.FC<{staffMember: Staff}> = ({staffMember}) =>
-    <div style={{maxWidth: 300, alignItems: 'stretch', margin: 2}}>
-        <Card>
+    <Col lg={3} md={4} sm={12}>
+        <Card style={{marginBottom: '1rem'}}>
             <CardBody>
-                <CardTitle>{staffMember.name}</CardTitle>
+                <CardTitle tag="h5">{staffMember.name}</CardTitle>
                 <CardText>Quote: "{staffMember.quote}"</CardText>
             </CardBody>
         </Card>
-    </div>
+    </Col>
 
 export default App;

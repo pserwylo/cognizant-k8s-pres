@@ -1,0 +1,6 @@
+{
+  "environment": "debug",
+  "dbConnection": "mongodb+srv://test:password@localhost/c7t-k8s?retryWrites=true&w=majority"
+}
+
+

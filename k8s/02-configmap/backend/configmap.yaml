@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: frontend
+  name: backend
 data:
   #
   # We will ask kubernetes to create a volume based on the contents of this config map, which we can then mount
@@ -9,5 +9,6 @@ data:
   #
   config.json: |
     {
-      "apiEndpoint": "http://backend-peter-serwylo-dev.apps.sandbox.x8i5.p1.openshiftapps.com"
+      "environment": "production",
+      "dbConnection": "mongodb+srv://c7t-k8s:woecsle38cy2@prod-mongo.enterprise-host.com/c7t-k8s?retryWrites=true&w=majority"
     }

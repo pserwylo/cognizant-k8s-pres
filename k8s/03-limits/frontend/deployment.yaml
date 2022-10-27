@@ -1,11 +1,16 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: backend
+  name: frontend
 spec:
   selector:
     matchLabels:
-      app: backend
+      app: frontend
+  #
+  # The frontend doesn't use many resources to serve static JS + CSS from an nginx container, so this is less about
+  # performance and more about redundancy.
+  #
+  replicas: 2
 
   #
   # Whenever k8s decides to create one or more pod for this deployment, it will use the YAML here to form
@@ -14,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: backend
+        app: frontend
     spec:
       #
       # Create a "volume" that can be used by the container when being created.
@@ -25,13 +30,23 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: backend
+            name: frontend
 
       containers:
-        - name: backend
-          image: pserwylo/cognizant-k8s-pres-backend:latest
+        - name: frontend
+          image: pserwylo/cognizant-k8s-pres-frontend:latest
+
+          # Start with minimal resources, but allow more to be added if required.
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 50m
+            limits:
+              memory: 1G
+              cpu: 500m
+
           ports:
-            - containerPort: 4000
+            - containerPort: 8080
 
           #
           # Use the volume created above, which contains a "config.json" file from within the "frontend-config-json"
@@ -39,6 +54,6 @@ spec:
           # the docker container).
           #
           volumeMounts:
-            - mountPath: /app/config.json
+            - mountPath: /usr/share/nginx/html/config.json
               name: config-volume
               subPath: config.json

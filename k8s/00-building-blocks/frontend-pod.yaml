@@ -1,0 +1,10 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: frontend
+spec:
+  containers:
+  - name: frontend
+    image: pserwylo/cognizant-k8s-pres-frontend:latest
+    ports:
+      - containerPort: 8080

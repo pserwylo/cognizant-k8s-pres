@@ -1,0 +1,10 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: backend
+spec:
+  containers:
+  - name: backend
+    image: pserwylo/cognizant-k8s-pres-backend:latest
+    ports:
+      - containerPort: 4000

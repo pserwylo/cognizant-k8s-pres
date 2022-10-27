@@ -3,6 +3,8 @@ kind: Route
 metadata:
   name: frontend
 spec:
+  port:
+    targetPort: 8080
   to:
     kind: Service
     name: frontend

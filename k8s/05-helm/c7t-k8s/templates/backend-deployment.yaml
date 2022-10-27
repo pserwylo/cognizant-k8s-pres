@@ -33,6 +33,13 @@ spec:
           ports:
             - containerPort: 4000
 
+          livenessProbe:
+            httpGet:
+              path: /api/health/status
+              port: 4000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+
           #
           # Use the volume created above, which contains a "config.json" file from within the "frontend-config-json"
           # ConfigMap, and make the "config.json" file available in the webroot (overwriting the example one in

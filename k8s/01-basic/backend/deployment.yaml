@@ -2,10 +2,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: backend
-  labels:
-    app: backend
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -22,7 +19,5 @@ spec:
       containers:
         - name: backend
           image: pserwylo/cognizant-k8s-pres-backend:latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 4000
-              protocol: TCP

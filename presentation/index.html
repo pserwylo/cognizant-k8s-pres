@@ -8,7 +8,9 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+		<link rel="stylesheet" href="dist/style.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -17,18 +19,214 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					Why learning Kubernetes
-					will make you<br />a better <span style="text-decoration: line-through">frontend</span> developer
-					<br />
+					<h1 data-state="make-it-pop">Learning Kubernetes to make you a better <strike>front-end</strike> developer</h1>
+					<img alt="k8s-logo" src="images/kubernetes.svg" />
 				</section>
-				<section>Slide 2
-						<aside class="notes">
-						<p>Some notes</p>
-						</aside>
-						<p>Some slide text</p>
-						<aside class="notes">
-						<p>and some more notes</p>
-					</aside>
+				<section>
+					<h2>"The save button isn't working..."</h2>
+					<ul>
+						<li>Frontend bug?</li>
+						<li>Backend bug?</li>
+						<li>Caching?</li>
+						<li>CORS or other server misconfiguration?</li>
+						<li>Database server down?</li>
+						<li>SSL certificates</li>
+						<li>DNS problem?</li>
+						<li>Load balancer?</li>
+						<li>Wrong version of code deployed?</li>
+						<li>OOM?</li>
+						<li>CD pipeline issue?</li>
+						<li>...</li>
+					</ul>
+				</section>
+				<section>
+					<img alt="t-shaped people have depth and breadth of knowledge" src="images/t-shaped.jpeg" />
+					<a href="https://sketchplanations.com/t-shaped-people-need-breadth-and-depth">sketchplanations.com - CC-BY-NC</a>
+				</section>
+				<section>
+					<h2>Outline</h2>
+					<ol>
+						<li>A simple website (frontend + backend)</li>
+						<li>An (opinionated and incomplete) history of deployment strategies</li>
+						<li>Intro to kubernetes and demos</li>
+					</ol>
+					<br />
+					<br />
+					<div class="row">
+						<div class="col-2">
+							<img src="images/question.png" />
+						</div>
+						<div class="col-10 left small">
+							Please feel free to interrupt
+							<br />
+							at any time to ask questions
+						</div>
+					</div>
+				</section>
+				<section>
+					<h2>Our little toy app</h2>
+					<div class="row r-stretch">
+						<div class="col-6">
+							<img src="images/example-frontend.png" />
+						</div>
+						<div class="col-3 left">
+							<p class="small">1 x Frontend</p>
+							<p class="tiny">CRA + Bootstrap</p>
+							<p class="tiny"><a href="https://github.com/pserwylo/cognizant-k8s-pres">GitHub</a></p>
+						</div>
+						<div class="col-3 left">
+							<img src="images/example-backend.png" />
+							<p class="small">1 x Backend</p>
+							<p class="tiny">Express</p>
+							<p class="tiny"><a href="https://github.com/pserwylo/cognizant-k8s-pres">GitHub</a></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<img src="images/short-history.png" class="r-stretch" />
+				</section>
+				<section>
+					<div class="row">
+						<div class="col-6">
+							<h2>
+								<span class="tiny">Deployment v0.1</span>
+								<br />
+								<span class="small">The README.md</span>
+							</h2>
+						</div>
+						<div class="col-6">
+							<img class="r-frame" src="images/deployment-readme.png" style="width: 100%" />
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="row">
+						<div class="col-6">
+							<h2>
+								<span class="tiny">Deployment v1.0</span>
+								<br />
+								<span class="small">Configuration Management</span>
+							</h2>
+							<ul class="small left">
+								<li>Ansible / Puppet / Chef / etc</li>
+								<li>Automate steps in the README</li>
+								<li class="fragment">Limitations:
+									<ul class="tiny">
+									  <li>Who creates the server?</li>
+									  <li>What happens when your server dies?</li>
+									  <li>What about running development instances?</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="col-6">
+							<img class="r-frame" src="images/deployment-config-management.png" style="width: 100%" />
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="row">
+						<div class="col-6">
+							<h2>
+								<span class="tiny">Deployment v1.1</span>
+								<br />
+								<span class="small">Infrastructure as Code (IaC)</span>
+							</h2>
+							<ul class="small left">
+								<li>For example:
+									<ul class="tiny">
+										<li>AWS CloudFormation</li>
+										<li>Azure Resource Manager</li>
+										<li>Google Deployment Manager</li>
+										<li>Terraform</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="col-6">
+							<img class="r-frame" src="images/deployment-iac.png" style="width: 100%" />
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="row">
+						<h2>Deployment v1.1 is great!</h2>
+						<div class="col-6">
+							<img src="images/mission-accomplished.png" style="width: 100%" />
+						</div>
+						<div class="col-6">
+							 <ul class="tiny">
+								 <li>Version control</li>
+								 <li>Unit tests for infrastructure and configuration</li>
+								 <li>Traceability</li>
+								 <li>Portability</li>
+							 </ul>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="row">
+						<div class="col-6">
+							<h2>
+								<span class="tiny">Deployment v2.0</span>
+								<br />
+								<span class="small">Containers</span>
+							</h2>
+							<ul class="small left">
+								<li>Dependencies bundled</li>
+								<li>Same build from dev to prod</li>
+								<li class="fragment">Limitations:
+									<ul class="tiny">
+										<li>Apps consist of may containers</li>
+										<li>(DB, Redis, FE, BE, Metrics, etc)</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="col-6">
+							<img class="r-frame" src="images/deployment-containers.png" style="width: 100%" />
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="row">
+						<div class="col-6">
+							<h2>
+								<span class="tiny">Deployment v2.0.1</span>
+								<br />
+								<span class="small">Docker Compose</span>
+							</h2>
+							<ul class="small left" >
+								<li>One command to run all containers</li>
+								<li>Automatic restarting on failure</li>
+								<li class="fragment">Limitations:
+									<ul class="tiny">
+										<li>Typically only runs on a single host</li>
+										<li>Not autoscalable?</li>
+										<li>No rolling updates</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="col-6">
+							<img class="r-frame" src="images/deployment-compose.png" style="width: 100%" />
+						</div>
+					</div>
+				</section>
+				<section>
+				    <h2>
+						<span class="tiny">Deployment v2.1</span>
+						<br />
+						<span class="small">Container Orchestration</span>
+				    </h2>
+					<img class="r-stretch" src="images/kubernetes.svg" />
+				</section>
+				<section style="position: relative">
+					<img class="r-stretch r-frame" src="images/why-kubernetes-hn.png" />
+					<img style="position: absolute; bottom: 0; right: 0; width: 60%;" class="r-frame" src="images/why-kubernetes-google.png" />
+				</section>
+				<section>
+					<img class="r-stretch" src="images/k8s-flavours.png" />
 				</section>
 			</div>
 		</div>

@@ -1,0 +1,17 @@
+.reveal .small {
+    font-size: 0.8em;
+    line-height: 1.1;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.reveal .tiny {
+    font-size: 0.7em;
+    line-height: 1.1;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.reveal .left {
+    text-align: left;
+}

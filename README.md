@@ -10,6 +10,10 @@ Presentation slides are available: http://peter.serwylo.com/cognizant-k8s-pres.
 
 The presentation tries to describe why you may wish to use k8s from first principles, but doesn't explain what k8s is
 or how it is used. To showcase this, a demo is really required. Hence, once the end of the presentation was reached, I did the following to build up an intuition about some of the concepts in k8s:
+
+<details>
+<summary>Show details of demo</summary>
+
 * Log into OpenShift and show a full deployment of the frontend + backend from `./k8s/04-health-checks`.
 * Remove the deployment to make space to start from first principles:
   * `kubectl delete all --all`
@@ -33,6 +37,7 @@ or how it is used. To showcase this, a demo is really required. Hence, once the 
 * Remove the manually created resources, then run a helm install to show one approach to managing a collection of k8s resources:
   * `kubectl delete all --all`
   * `helm install app ./k8s/05-helm`
+</details>
 
 ## Organisation of this repo
 
